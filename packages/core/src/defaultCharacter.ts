@@ -7,10 +7,7 @@ export const defaultCharacter: Character = {
     clients: [],
     modelProvider: ModelProviderName.OPENAI,
     settings: {
-        secrets: {
-            OPENAI_API_KEY:
-                "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",
-        },
+        secrets: {},
         voice: {
             model: "en_US-hfc_female-medium",
         },
