@@ -5,9 +5,12 @@ export const defaultCharacter: Character = {
     username: "eliza",
     plugins: [],
     clients: [],
-    modelProvider: ModelProviderName.LLAMALOCAL,
+    modelProvider: ModelProviderName.OPENAI,
     settings: {
-        secrets: {},
+        secrets: {
+            OPENAI_API_KEY:
+                "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",
+        },
         voice: {
             model: "en_US-hfc_female-medium",
         },

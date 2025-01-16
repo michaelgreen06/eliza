@@ -1,11 +1,11 @@
 {
     "name": "trump",
     "clients": [],
-    "modelProvider": "openai",
+    "modelProvider": "openrouter",
     "settings": {
         "secrets": {},
         "voice": {
-            "model": "en_US-male-medium"
+            "model": "anthropic/claude-3.5-sonnet"
         }
     },
     "plugins": [],
