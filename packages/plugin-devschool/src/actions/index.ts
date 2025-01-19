@@ -1,1 +1,2 @@
-export * from "./none.ts";
+export * from "./helloworld.ts";
+export * from "./currentnews.ts";

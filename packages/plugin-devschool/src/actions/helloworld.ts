@@ -22,7 +22,8 @@ export const helloWorldAction: Action = {
         _callback: HandlerCallback
     ): Promise<boolean> => {
         const helloWorld = `
- _    _       _ _        __          __        _     _
+        This is definitely working!
+ _    _      _ _        __          __        _     _
 | |  | |    | | |       \ \        / /       | |   | |
 | |__| | ___| | | ___    \ \  /\  / /__  _ __| | __| |
 |  __  |/ _ \ | |/ _ \    \ \/  \/ / _ \| '__| |/ _' |
