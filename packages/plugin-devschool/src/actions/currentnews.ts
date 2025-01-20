@@ -1,4 +1,9 @@
-import { HandlerCallback } from "@elizaos/core";
+import {
+    Content,
+    generateText,
+    HandlerCallback,
+    ModelClass,
+} from "@elizaos/core";
 import {
     ActionExample,
     IAgentRuntime,
@@ -23,9 +28,8 @@ export const currentNewsAction: Action = {
     ): Promise<boolean> => {
         async function getCurrentNews(searchTerm: string) {
             const response = await fetch(
-                `https://newsapi.org/v2/everything?q=${searchTerm}t&apiKey=${process.env.NEWS_API_KEY}`
+                `https://newsapi.org/v2/everything?q=${searchTerm}&apiKey=${process.env.NEWS_API_KEY}`
             );
-
             const data = await response.json();
             return data.articles
                 .slice(0, 5)
@@ -35,17 +39,34 @@ export const currentNewsAction: Action = {
                 )
                 .join("\n\n");
         }
+        const context = `extract the search term from the user's message. the message is: ${_message.content.text}.
 
-        const searchTerm = "ai16z";
+        Only respond with the search term do not include "current news" or any other text.`;
+
+        const searchTerm = await generateText({
+            runtime: _runtime,
+            context,
+            modelClass: ModelClass.SMALL,
+            stop: ["\n"],
+        });
+        // const searchTerm = "ai16z";
         const currentNews = await getCurrentNews(searchTerm);
 
-        _callback({
-            text:
-                "The current news for the search term " +
-                searchTerm +
-                " is " +
-                currentNews,
-        });
+        const responseText = `The current news for the search term ${searchTerm} is ${currentNews}`;
+
+        const newMemory: Memory = {
+            userId: _message.agentId,
+            agentId: _message.agentId,
+            content: {
+                text: responseText,
+                action: "CURRENT_NEWS_RESPONSE",
+                source: _message.content?.source,
+            } as Content,
+            roomId: _message.roomId,
+        };
+
+        await _runtime.messageManager.createMemory(newMemory);
+        _callback(newMemory.content);
         return true;
     },
     examples: [
