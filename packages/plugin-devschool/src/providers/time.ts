@@ -1,19 +1,35 @@
 import { IAgentRuntime, Memory, Provider, State } from "@elizaos/core";
 
-const timeProvider: Provider = {
+const randomEmotionProvider: Provider = {
     get: async (_runtime: IAgentRuntime, _message: Memory, _state?: State) => {
-        const currentDate = new Date();
-
-        // Get UTC time since bots will be communicating with users around the global
-        const options = {
-            timeZone: "UTC",
-            dateStyle: "full" as const,
-            timeStyle: "long" as const,
+        const emotions = {
+            happy: _runtime.character.name + " is feeling joyful and upbeat",
+            sad: _runtime.character.name + " is feeling down and melancholic",
+            angry:
+                _runtime.character.name +
+                " is feeling frustrated and irritated",
+            excited:
+                _runtime.character.name +
+                " is feeling enthusiastic and energized",
+            anxious: _runtime.character.name + " is feeling worried and uneasy",
+            peaceful: _runtime.character.name + " is feeling calm and tranquil",
+            confused:
+                _runtime.character.name + " is feeling puzzled and uncertain",
+            tired:
+                _runtime.character.name + " is feeling exhausted and drained",
+            proud:
+                _runtime.character.name +
+                " is feeling accomplished and satisfied",
+            grateful:
+                _runtime.character.name +
+                " is feeling thankful and appreciative",
         };
-        const humanReadable = new Intl.DateTimeFormat("en-US", options).format(
-            currentDate
-        );
-        return `The current date and time is ${humanReadable}. Please use this as your reference for any time-based operations or responses.`;
+
+        const emotionKeys = Object.keys(emotions);
+        const randomKey =
+            emotionKeys[Math.floor(Math.random() * emotionKeys.length)];
+
+        return emotions[randomKey];
     },
 };
-export { timeProvider };
+export { randomEmotionProvider };
